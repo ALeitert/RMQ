@@ -1,12 +1,15 @@
+#include <chrono>
 #include <cstdlib>
 
 #include "rmqTest.h"
 
 using namespace std;
+using namespace std::chrono;
 
 
 // Shortcuts for types.
 typedef int Num;
+typedef std::pair<size_t, size_t> TimePair;
 
 
 // Anonymous namespace with helper functions.
@@ -41,9 +44,9 @@ vector<Num> RMQTest::generateData(size_t size, unsigned seed)
 
 // Verifies that two RMQ algorithm create the same result.
 // Randomly picks index pairs and compares the result.
-bool RMQTest::verify(const RMQ<Num>& rmq1, const RMQ<Num>& rmq2, size_t dataSize, size_t querries)
+bool RMQTest::verify(const RMQ<Num>& rmq1, const RMQ<Num>& rmq2, size_t dataSize, size_t queries)
 {
-    for (size_t q = 0; q < querries; q++)
+    for (size_t q = 0; q < queries; q++)
     {
         size_t i = rand() % dataSize;
         size_t j = rand() % (dataSize - 1);
@@ -58,4 +61,42 @@ bool RMQTest::verify(const RMQ<Num>& rmq1, const RMQ<Num>& rmq2, size_t dataSize
     }
 
     return true;
+}
+
+// Meassures the time needed to preprocess and to run queries unsing the
+// given RMQ algorithm.
+TimePair RMQTest::getRuntime(RMQ<Num>& rmq, size_t dataSize, size_t queries)
+{
+    // Preprocessing
+    size_t pTime = 0;
+    {
+        auto start = high_resolution_clock::now();
+
+        rmq.processData();
+
+        auto end = high_resolution_clock::now();
+        pTime = duration_cast<milliseconds>(end - start).count();
+    }
+
+    // Queries
+    size_t qTime = 0;
+    {
+        auto start = high_resolution_clock::now();
+
+        for (size_t q = 0; q < queries; q++)
+        {
+            size_t i = rand() % dataSize;
+            size_t j = rand() % (dataSize - 1);
+
+            if (i <= j) j++;
+            if (i > j) swap(i, j);
+
+            rmq(i, j);
+        }
+
+        auto end = high_resolution_clock::now();
+        qTime = duration_cast<milliseconds>(end - start).count();
+    }
+
+    return TimePair(pTime, qTime);
 }

@@ -24,7 +24,7 @@ public:
     // Verifies that two RMQ algorithm create the same result.
     // Randomly picks index pairs and compares the result.
     template<typename S, typename T>
-    static bool verifyAlgorithms(size_t dataSize, size_t querries, unsigned seed)
+    static bool verifyAlgorithms(size_t dataSize, size_t queries, unsigned seed)
     {
         static_assert(std::is_base_of<RMQ<Num>, S>::value, "S must inherit from RMQ<>.");
         static_assert(std::is_base_of<RMQ<Num>, T>::value, "T must inherit from RMQ<>.");
@@ -39,13 +39,13 @@ public:
         rmq1.processData();
         rmq2.processData();
 
-        return verify(rmq1, rmq2, dataSize, querries);
+        return verify(rmq1, rmq2, dataSize, queries);
     }
 
     // Determines the runtime of the given algorithm.
-    // Returns the runtime for preprocessing and for querries.
+    // Returns the runtime for preprocessing and for queries.
     template<typename T>
-    static TimePair getRuntime(size_t dataSize, size_t querries, unsigned seed)
+    static TimePair getRuntime(size_t dataSize, size_t queries, unsigned seed)
     {
         static_assert(std::is_base_of<RMQ<Num>, T>::value, "T must inherit from RMQ<>.");
 
@@ -53,7 +53,8 @@ public:
         vector<Num> data = generateData(dataSize, seed);
 
         // Run test.
-        return getRuntime(T(data), querries);
+        T rmq(data);
+        return getRuntime(rmq, dataSize, queries);
     }
 
 
@@ -64,11 +65,11 @@ private:
 
     // Verifies that two RMQ algorithm create the same result.
     // Randomly picks index pairs and compares the result.
-    static bool verify(const RMQ<Num>& rmq1, const RMQ<Num>& rmq2, size_t dataSize, size_t querries);
+    static bool verify(const RMQ<Num>& rmq1, const RMQ<Num>& rmq2, size_t dataSize, size_t queries);
 
     // Meassures the time needed to preprocess and to run queries unsing the
     // given RMQ algorithm.
-    static TimePair getRuntime(RMQ<Num>& rmq, size_t querries);
+    static TimePair getRuntime(RMQ<Num>& rmq, size_t dataSize, size_t queries);
 };
 
 #endif
