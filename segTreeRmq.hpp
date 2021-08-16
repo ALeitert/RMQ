@@ -86,11 +86,7 @@ public:
                 {
                     node.right = &tree[qPtr + 1];
                     node.toIdx = node.right->toIdx;
-
-                    if (data[node.right->minIdx] < data[node.minIdx])
-                    {
-                        node.minIdx = node.right->minIdx;
-                    }
+                    node.minIdx = this->minIndex(node.minIdx, node.right->minIdx);
                 }
             }
         }

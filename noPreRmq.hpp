@@ -27,18 +27,12 @@ public:
     // has not been done.
     size_t operator()(size_t i, size_t j) const
     {
-        // Shortcut to access data.
-        const std::vector<T>& data = this->data;
-
         // First entry is default minimum.
         size_t minIdx = i;
 
         for (size_t idx = i + 1; idx <= j; idx++)
         {
-            if (data[idx] < data[minIdx])
-            {
-                minIdx = idx;
-            }
+            minIdx = this->minIndex(minIdx, idx);
         }
 
         return minIdx;

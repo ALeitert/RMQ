@@ -23,9 +23,7 @@ public:
     // Pre-processes the data to allow queries.
     void processData()
     {
-        // Shortcut to access data.
-        const vector<T>& data = this->data;
-        const size_t n = data.size();
+        const size_t n = this->data.size();
 
         table.clear();
         table.resize(n, vector<size_t>(n));
@@ -41,12 +39,7 @@ public:
             for (size_t j = i + 1; j < n; j++)
             {
                 // Recursive call.
-                size_t minIdx = table[i][j - 1];
-
-                if (data[j] < data[minIdx])
-                {
-                    minIdx = j;
-                }
+                size_t minIdx = this->minIndex(table[i][j - 1], j);
 
                 table[i][j] = minIdx;
                 table[j][i] = minIdx;

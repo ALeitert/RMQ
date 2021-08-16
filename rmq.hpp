@@ -30,6 +30,13 @@ protected:
 
     // The sequence to run queries against.
     const std::vector<T>& data;
+
+    // Determines which of these indices stores the smaller value.
+    size_t minIndex(size_t i, size_t j) const
+    {
+        if (data[i] < data[j]) return i;
+        else return j;
+    }
 };
 
 #endif
