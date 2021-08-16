@@ -1,3 +1,6 @@
 # Files created by the compiler.
 *.o
 *.out
+
+# VS Code files.
+.vscode
