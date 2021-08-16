@@ -8,6 +8,10 @@
 #include <iomanip>
 #include <iostream>
 
+#include "naiveRmq.hpp"
+#include "noPreRmq.hpp"
+#include "rmqTest.h"
+
 
 using namespace std;
 
@@ -64,5 +68,31 @@ void printTime(int64_t time, ostream& out)
 
 int main()
 {
+    const size_t   dataSize = 20000;
+    const size_t   queries  = 1000000;
+    const unsigned seed     = 19082017;
 
+    cout << "   Size: " << dataSize << endl;
+    cout << "Queries: " << queries << endl;
+
+
+    cout << "\n*** No Pre-Processing ***";
+    {
+        pair<size_t, size_t> timePair =
+            RMQTest::getRuntime<NoPreRMQ<int>>(dataSize, queries, seed);
+
+        cout << "\nP: "; printTime(timePair.first, cout);
+        cout << "\nQ: "; printTime(timePair.second, cout);
+        cout << endl;
+    }
+
+    cout << "\n*** Naive ***";
+    {
+        pair<size_t, size_t> timePair =
+            RMQTest::getRuntime<NaiveRMQ<int>>(dataSize, queries, seed);
+
+        cout << "\nP: "; printTime(timePair.first, cout);
+        cout << "\nQ: "; printTime(timePair.second, cout);
+        cout << endl;
+    }
 }
