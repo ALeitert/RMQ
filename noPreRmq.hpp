@@ -1,11 +1,12 @@
 // Represents a RMQ without pre-processing by simply iterating over the given
 // range.
+// Runtime: O(1) | O(k)
 
-#ifndef __NoPreRmq_H__
-#define __NoPreRmq_H__
+#ifndef __NoPreRmq_HPP__
+#define __NoPreRmq_HPP__
 
 
-#include "rmq.h"
+#include "rmq.hpp"
 
 
 template<typename T>
