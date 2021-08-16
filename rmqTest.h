@@ -4,8 +4,6 @@
 #define __RmqTest_HPP__
 
 
-#include <stdlib.h>
-
 #include "rmq.hpp"
 
 
@@ -32,8 +30,7 @@ public:
         static_assert(std::is_base_of<RMQ<Num>, T>::value, "T must inherit from RMQ<>.");
 
         // Generade random numbers.
-        srand(seed);
-        vector<Num> data = generateData(dataSize);
+        vector<Num> data = generateData(dataSize, seed);
 
         // Generate and test algorithms.
         S rmq1(data);
@@ -45,17 +42,25 @@ public:
         return verify(rmq1, rmq2, querries);
     }
 
+    // Determines the runtime of the given algorithm.
+    // Returns the runtime for preprocessing and for querries.
     template<typename T>
-    static TimePair getRuntime(size_t dataSize, size_t querries, int seed)
+    static TimePair getRuntime(size_t dataSize, size_t querries, unsigned seed)
     {
         static_assert(std::is_base_of<RMQ<Num>, T>::value, "T must inherit from RMQ<>.");
+
+        // Generade random numbers.
+        vector<Num> data = generateData(dataSize, seed);
+
+        // Run test.
+        return getRuntime(T(data), querries);
     }
 
 
 private:
 
     // Generates a list of random numbers with the given size.
-    static vector<Num> generateData(size_t size);
+    static vector<Num> generateData(size_t size, unsigned seed);
 
     // Verifies that two RMQ algorithm create the same result.
     // Randomly picks index pairs and compares the result.
