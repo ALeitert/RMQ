@@ -3,7 +3,11 @@
 #ifndef __RmqTest_HPP__
 #define __RmqTest_HPP__
 
+
+#include <stdlib.h>
+
 #include "rmq.hpp"
+
 
 class RMQTest
 {
@@ -19,13 +23,26 @@ class RMQTest
 
 public:
 
+    // Verifies that two RMQ algorithm create the same result.
+    // Randomly picks index pairs and compares the result.
     template<typename S, typename T>
-    static void verifyAlgorithms(size_t dataSize, size_t querries, int seed)
+    static bool verifyAlgorithms(size_t dataSize, size_t querries, unsigned seed)
     {
         static_assert(std::is_base_of<RMQ<Num>, S>::value, "S must inherit from RMQ<>.");
         static_assert(std::is_base_of<RMQ<Num>, T>::value, "T must inherit from RMQ<>.");
 
+        // Generade random numbers.
+        srand(seed);
+        vector<Num> data = generateData(dataSize);
 
+        // Generate and test algorithms.
+        S rmq1(data);
+        T rmq2(data);
+
+        rmq1.processData();
+        rmq2.processData();
+
+        return verify(rmq1, rmq2, querries);
     }
 
     template<typename T>
@@ -42,7 +59,7 @@ private:
 
     // Verifies that two RMQ algorithm create the same result.
     // Randomly picks index pairs and compares the result.
-    static bool verify(RMQ<Num>& rmq1, RMQ<Num>& rmq2, size_t querries);
+    static bool verify(const RMQ<Num>& rmq1, const RMQ<Num>& rmq2, size_t querries);
 
     // Meassures the time needed to preprocess and to run queries unsing the
     // given RMQ algorithm.
