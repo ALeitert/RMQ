@@ -39,7 +39,7 @@ public:
         rmq1.processData();
         rmq2.processData();
 
-        return verify(rmq1, rmq2, querries);
+        return verify(rmq1, rmq2, dataSize, querries);
     }
 
     // Determines the runtime of the given algorithm.
@@ -64,7 +64,7 @@ private:
 
     // Verifies that two RMQ algorithm create the same result.
     // Randomly picks index pairs and compares the result.
-    static bool verify(const RMQ<Num>& rmq1, const RMQ<Num>& rmq2, size_t querries);
+    static bool verify(const RMQ<Num>& rmq1, const RMQ<Num>& rmq2, size_t dataSize, size_t querries);
 
     // Meassures the time needed to preprocess and to run queries unsing the
     // given RMQ algorithm.
