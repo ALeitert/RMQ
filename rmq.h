@@ -3,9 +3,33 @@
 #ifndef __RMQ_H__
 #define __RMQ_H__
 
+
+#include <vector>
+
+
 template<typename T>
 class RMQ
 {
+public:
+
+    // Constructor.
+    RMQ(const std::vector<T>& data) : data(data) { /* Nothing. */ }
+
+
+    // Pre-processes the data to allow queries.
+    void processData() = 0;
+
+    // Performs a query on the given data and given range.
+    // Returns the index of the minimum in that range.
+    // Behaviour is undefined if the given range is invalid or pre-processing
+    // has not been done.
+    size_t operator()(size_t i, size_t j) = 0;
+
+
+private:
+
+    // The sequence to run queries against.
+    const std::vector<T>& data;
 };
 
 #endif
