@@ -98,6 +98,86 @@ public:
     // has not been done.
     size_t operator()(size_t i, size_t j) const
     {
+        size_t minIdx = i;
+        const Node* node = &tree[0];
+
+        // Go down until paths to i and j split.
+        for (;;)
+        {
+            if (node->frIdx == i && node->toIdx == j)
+            {
+                // Base case.
+                return node->minIdx;
+            }
+
+            if (j <= node->left->toIdx)
+            {
+                // Go left.
+                node = node->left;
+            }
+            else if (i > node->left->toIdx)
+            {
+                // Go right.
+                node = node->right;
+            }
+            else
+            {
+                // Split paths.
+                break;
+            }
+        }
+
+        // Go down left and search for i.
+        for (const Node* iNode = node->left;;)
+        {
+            if (iNode->frIdx == i)
+            {
+                // Base case.
+                minIdx = this->minIndex(minIdx, iNode->minIdx);
+                break;
+            }
+
+            if (i <= iNode->left->toIdx)
+            {
+                // Get minimum from right node ...
+                minIdx = this->minIndex(minIdx, iNode->right->minIdx);
+
+                // ... and go left.
+                iNode = iNode->left;
+            }
+            else
+            {
+                // Go right.
+                iNode = iNode->right;
+            }
+        }
+
+        // Go down right and search for j.
+        for (const Node* jNode = node->right;;)
+        {
+            if (jNode->toIdx == j)
+            {
+                // Base case.
+                minIdx = this->minIndex(minIdx, jNode->minIdx);
+                break;
+            }
+
+            if (j <= jNode->left->toIdx)
+            {
+                // Go left.
+                jNode = jNode->left;
+            }
+            else
+            {
+                // Get minimum from left node ...
+                minIdx = this->minIndex(minIdx, jNode->left->minIdx);
+
+                // ... and go right.
+                jNode = jNode->right;
+            }
+        }
+
+        return minIdx;
     }
 
 
