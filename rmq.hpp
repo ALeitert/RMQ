@@ -21,13 +21,13 @@ public:
 
 
     // Pre-processes the data to allow queries.
-    virtual void processData() = 0;
+    virtual void processData() { };
 
     // Performs a query on the given data and given range.
     // Returns the index of the minimum in that range.
     // Behaviour is undefined if the given range is invalid or pre-processing
     // has not been done.
-    virtual size_t operator()(size_t i, size_t j) const = 0;
+    virtual size_t operator()(size_t, size_t) const { return 0; };
 
 
 protected:

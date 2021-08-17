@@ -77,6 +77,16 @@ int main()
     cout << "Queries: " << queries << endl;
 
 
+    cout << "\n*** Reference ***";
+    {
+        pair<size_t, size_t> timePair =
+            RMQTest::getRuntime<RMQ<int>>(dataSize, queries, seed);
+
+        cout << "\nP: "; printTime(timePair.first, cout);
+        cout << "\nQ: "; printTime(timePair.second, cout);
+        cout << endl;
+    }
+
     cout << "\n*** No Pre-Processing ***";
     {
         pair<size_t, size_t> timePair =
