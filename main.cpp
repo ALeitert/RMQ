@@ -94,6 +94,17 @@ int main()
 
         cout << "\nP: "; printTime(timePair.first, cout);
         cout << "\nQ: "; printTime(timePair.second, cout);
+
+        // Verify correctnes.
+        bool correct =
+            RMQTest::verifyAlgorithms
+            <
+                NoPreRMQ<int>,
+                NaiveRMQ<int>
+            >
+            (dataSize, queries, seed);
+        cout << "\nC: " << (correct ? "Yes" : "No");
+
         cout << endl;
     }
 
@@ -104,6 +115,17 @@ int main()
 
         cout << "\nP: "; printTime(timePair.first, cout);
         cout << "\nQ: "; printTime(timePair.second, cout);
+
+        // Verify correctnes.
+        bool correct =
+            RMQTest::verifyAlgorithms
+            <
+                NoPreRMQ<int>,
+                SegTreeRMQ<int>
+            >
+            (dataSize, queries, seed);
+        cout << "\nC: " << (correct ? "Yes" : "No");
+
         cout << endl;
     }
 }
