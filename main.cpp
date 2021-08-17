@@ -11,6 +11,7 @@
 #include "naiveRmq.hpp"
 #include "noPreRmq.hpp"
 #include "rmqTest.h"
+#include "segTreeRmq.hpp"
 
 
 using namespace std;
@@ -90,6 +91,16 @@ int main()
     {
         pair<size_t, size_t> timePair =
             RMQTest::getRuntime<NaiveRMQ<int>>(dataSize, queries, seed);
+
+        cout << "\nP: "; printTime(timePair.first, cout);
+        cout << "\nQ: "; printTime(timePair.second, cout);
+        cout << endl;
+    }
+
+    cout << "\n*** Segment Tree ***";
+    {
+        pair<size_t, size_t> timePair =
+            RMQTest::getRuntime<SegTreeRMQ<int>>(dataSize, queries, seed);
 
         cout << "\nP: "; printTime(timePair.first, cout);
         cout << "\nQ: "; printTime(timePair.second, cout);
