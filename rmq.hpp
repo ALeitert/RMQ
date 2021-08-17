@@ -12,6 +12,10 @@ class RMQ
 {
 public:
 
+    // The sequence to run queries against.
+    const std::vector<T>& data;
+
+
     // Constructor.
     RMQ(const std::vector<T>& data) : data(data) { /* Nothing. */ }
 
@@ -27,9 +31,6 @@ public:
 
 
 protected:
-
-    // The sequence to run queries against.
-    const std::vector<T>& data;
 
     // Determines which of these indices stores the smaller value.
     size_t minIndex(size_t i, size_t j) const

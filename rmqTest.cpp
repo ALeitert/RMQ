@@ -46,6 +46,8 @@ vector<Num> RMQTest::generateData(size_t size, unsigned seed)
 // Randomly picks index pairs and compares the result.
 bool RMQTest::verify(const RMQ<Num>& rmq1, const RMQ<Num>& rmq2, size_t dataSize, size_t queries)
 {
+    const vector<Num>& data = rmq1.data;
+
     for (size_t q = 0; q < queries; q++)
     {
         size_t i = rand() % dataSize;
@@ -57,7 +59,7 @@ bool RMQTest::verify(const RMQ<Num>& rmq1, const RMQ<Num>& rmq2, size_t dataSize
         size_t min1 = rmq1(i, j);
         size_t min2 = rmq2(i, j);
 
-        if (min1 != min2) return false;
+        if (data[min1] != data[min2]) return false;
     }
 
     return true;
