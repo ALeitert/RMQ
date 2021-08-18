@@ -77,6 +77,8 @@ int main()
     cout << "Queries: " << queries << endl;
 
 
+    pair<size_t, size_t> refTime;
+
     cout << "\n*** Reference ***";
     {
         pair<size_t, size_t> timePair =
@@ -85,6 +87,8 @@ int main()
         cout << "\nP: "; printTime(timePair.first, cout);
         cout << "\nQ: "; printTime(timePair.second, cout);
         cout << endl;
+
+        refTime = timePair;
     }
 
     cout << "\n*** No Pre-Processing ***";
@@ -92,8 +96,8 @@ int main()
         pair<size_t, size_t> timePair =
             RMQTest::getRuntime<NoPreRMQ<int>>(dataSize, queries, seed);
 
-        cout << "\nP: "; printTime(timePair.first, cout);
-        cout << "\nQ: "; printTime(timePair.second, cout);
+        cout << "\nP: "; printTime(timePair.first - refTime.first, cout);
+        cout << "\nQ: "; printTime(timePair.second - refTime.first, cout);
         cout << endl;
     }
 
@@ -102,8 +106,8 @@ int main()
         pair<size_t, size_t> timePair =
             RMQTest::getRuntime<NaiveRMQ<int>>(dataSize, queries, seed);
 
-        cout << "\nP: "; printTime(timePair.first, cout);
-        cout << "\nQ: "; printTime(timePair.second, cout);
+        cout << "\nP: "; printTime(timePair.first - refTime.first, cout);
+        cout << "\nQ: "; printTime(timePair.second - refTime.first, cout);
 
         // Verify correctnes.
         bool correct =
@@ -123,8 +127,8 @@ int main()
         pair<size_t, size_t> timePair =
             RMQTest::getRuntime<SegTreeRMQ<int>>(dataSize, queries, seed);
 
-        cout << "\nP: "; printTime(timePair.first, cout);
-        cout << "\nQ: "; printTime(timePair.second, cout);
+        cout << "\nP: "; printTime(timePair.first - refTime.first, cout);
+        cout << "\nQ: "; printTime(timePair.second - refTime.second, cout);
 
         // Verify correctnes.
         bool correct =
