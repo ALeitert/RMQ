@@ -12,6 +12,7 @@
 #include "noPreRmq.hpp"
 #include "rmqTest.h"
 #include "segTreeRmq.hpp"
+#include "segTreeCacheRmq.hpp"
 
 
 using namespace std;
@@ -135,6 +136,27 @@ int main()
             RMQTest::verifyAlgorithms
             <
                 NoPreRMQ<int>,
+                SegTreeRMQ<int>
+            >
+            (dataSize, queries, seed);
+        cout << "\nC: " << (correct ? "Yes" : "No");
+
+        cout << endl;
+    }
+
+    cout << "\n*** Segment Tree Cache ***";
+    {
+        pair<size_t, size_t> timePair =
+            RMQTest::getRuntime<SegTreeCacheRMQ<int>>(dataSize, queries, seed);
+
+        cout << "\nP: "; printTime(timePair.first - refTime.first, cout);
+        cout << "\nQ: "; printTime(timePair.second - refTime.second, cout);
+
+        // Verify correctnes.
+        bool correct =
+            RMQTest::verifyAlgorithms
+            <
+                SegTreeCacheRMQ<int>,
                 SegTreeRMQ<int>
             >
             (dataSize, queries, seed);
