@@ -13,6 +13,7 @@
 #include "rmqTest.h"
 #include "segTreeRmq.hpp"
 #include "segTreeCacheRmq.hpp"
+#include "sparseTableRmq.hpp"
 
 
 using namespace std;
@@ -158,6 +159,27 @@ int main()
             <
                 SegTreeCacheRMQ<int>,
                 SegTreeRMQ<int>
+            >
+            (dataSize, queries, seed);
+        cout << "\nC: " << (correct ? "Yes" : "No");
+
+        cout << endl;
+    }
+
+    cout << "\n*** Sparse Table ***";
+    {
+        pair<size_t, size_t> timePair =
+            RMQTest::getRuntime<SparseTableRMQ<int>>(dataSize, queries, seed);
+
+        cout << "\nP: "; printTime(timePair.first - refTime.first, cout);
+        cout << "\nQ: "; printTime(timePair.second - refTime.second, cout);
+
+        // Verify correctnes.
+        bool correct =
+            RMQTest::verifyAlgorithms
+            <
+                SegTreeCacheRMQ<int>,
+                SparseTableRMQ<int>
             >
             (dataSize, queries, seed);
         cout << "\nC: " << (correct ? "Yes" : "No");
