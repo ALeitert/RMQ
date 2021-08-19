@@ -60,6 +60,13 @@ private:
     // A RMQ to find the minimum block.
     SparseTableRMQ<size_t>* tableRmq = nullptr;
 
+
+    // States for each block, what class it is.
+    vector<size_t> blockCls;
+
+    // Allows to determine the minimum in a single block.
+    vector<SparseTableRMQ<size_t>*> classRmq;
+
 };
 
 #endif

@@ -80,6 +80,40 @@ void PlusMinusRMQ::processData()
         tableRmq = new SparseTableRMQ<size_t>(blockMinVal);
         tableRmq->processData();
     }
+
+
+    // --- Classify blocks. ---
+
+    // Notethat we do not need to handle the last block B as special case as
+    // long as we classify it last. If its class is unique, it will be processed
+    // automatically. If it has the same class as a previous block, we
+    // still only run queries on a range fitting to B which is still equivalent
+    // to a query on the earlier block.
+
+    size_t classCount = 1 << (blockSize - 1);
+
+    blockCls.resize(blockCount, 0);
+    classRmq.resize(classCount, nullptr);
+
+    for (size_t b = 0; b < blockCount; b++)
+    {
+        size_t& cls = blockCls[b];
+
+        size_t bSta = b * blockSize;
+        size_t bEnd = std::min(bSta + blockSize, n);
+
+        for (size_t i = bSta + 1; i < bEnd; i++, cls <<= 1)
+        {
+            size_t a = data[i - 1];
+            size_t b = data[i];
+
+            // Determine if it is +1 (0) or -1 (1).
+            cls |= (((a ^ b) >> 1) ^ a) & 1;
+        }
+
+        // Undo last shift.
+        cls >>= 1;
+    }
 }
 
 
