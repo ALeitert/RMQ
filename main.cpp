@@ -14,6 +14,7 @@
 #include "segTreeRmq.hpp"
 #include "segTreeCacheRmq.hpp"
 #include "sparseTableRmq.hpp"
+#include "plusMinusRmq.h"
 
 
 using namespace std;
@@ -99,7 +100,7 @@ int main()
             RMQTest::getRuntime<NoPreRMQ<int>>(dataSize, queries, seed);
 
         cout << "\nP: "; printTime(timePair.first - refTime.first, cout);
-        cout << "\nQ: "; printTime(timePair.second - refTime.first, cout);
+        cout << "\nQ: "; printTime(timePair.second - refTime.second, cout);
         cout << endl;
     }
 
@@ -109,7 +110,7 @@ int main()
             RMQTest::getRuntime<NaiveRMQ<int>>(dataSize, queries, seed);
 
         cout << "\nP: "; printTime(timePair.first - refTime.first, cout);
-        cout << "\nQ: "; printTime(timePair.second - refTime.first, cout);
+        cout << "\nQ: "; printTime(timePair.second - refTime.second, cout);
 
         // Verify correctnes.
         bool correct =
@@ -179,6 +180,26 @@ int main()
             RMQTest::verifyAlgorithms
             <
                 SegTreeCacheRMQ<int>,
+                SparseTableRMQ<int>
+            >
+            (dataSize, queries, seed);
+        cout << "\nC: " << (correct ? "Yes" : "No");
+
+        cout << endl;
+    }
+
+    cout << "\n*** Plus Minus ***";
+    {
+        pair<size_t, size_t> timePair =
+            RMQTest::getPlusMinusRuntime(dataSize, queries, seed);
+
+        cout << "\nP: "; printTime(timePair.first - refTime.first, cout);
+        cout << "\nQ: "; printTime(timePair.second - refTime.second, cout);
+
+        // Verify correctnes.
+        bool correct =
+            RMQTest::verifyPlusMinus
+            <
                 SparseTableRMQ<int>
             >
             (dataSize, queries, seed);
