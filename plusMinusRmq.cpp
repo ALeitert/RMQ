@@ -14,6 +14,11 @@ PlusMinusRMQ::PlusMinusRMQ(const vector<number>& data) :
 PlusMinusRMQ::~PlusMinusRMQ()
 {
     if (tableRmq != nullptr) delete tableRmq;
+
+    for (SparseTableRMQ<size_t>*& ptr : classRmq)
+    {
+        if (ptr != nullptr) delete ptr;
+    }
 }
 
 
@@ -113,6 +118,16 @@ void PlusMinusRMQ::processData()
 
         // Undo last shift.
         cls >>= 1;
+
+        // Has that class an RMQ?
+        SparseTableRMQ<size_t>*& rmqPtr = classRmq[cls];
+        if (rmqPtr == nullptr)
+        {
+            // Create RMQ for class.
+            vector<number> block(data.begin() + bSta, data.begin() + bEnd - 1);
+            rmqPtr = new SparseTableRMQ<number>(block);
+            (*rmqPtr).processData();
+        }
     }
 }
 
