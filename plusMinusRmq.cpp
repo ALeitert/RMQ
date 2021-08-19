@@ -2,12 +2,10 @@
 
 #include "log.hpp"
 
-using namespace std;
-
 
 // Constructor.
-PlusMinusRMQ::PlusMinusRMQ(const vector<size_t>& data) :
-    RMQ<size_t>(data)
+PlusMinusRMQ::PlusMinusRMQ(const vector<number>& data) :
+    RMQ<number>(data)
 {
     /* Nothing. */
 }
@@ -15,7 +13,7 @@ PlusMinusRMQ::PlusMinusRMQ(const vector<size_t>& data) :
 // Pre-processes the data to allow queries.
 void PlusMinusRMQ::processData()
 {
-    const vector<size_t> data = this->data;
+    const vector<number> data = this->data;
     const size_t    n    = this->data.size();
 
     // Determine block size.

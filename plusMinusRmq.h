@@ -14,10 +14,18 @@
 
 class PlusMinusRMQ : public RMQ<size_t>
 {
+    // The numberic type used for the data.
+    // Has to be equal to type used for RMQ base class.
+    typedef size_t number;
+
+    // Shortcut to avoid the need for "std::".
+    template<typename X> using vector = std::vector<X>;
+
+
 public:
 
     // Constructor.
-    PlusMinusRMQ(const std::vector<size_t>& data);
+    PlusMinusRMQ(const std::vector<number>& data);
 
     // Pre-processes the data to allow queries.
     void processData();
