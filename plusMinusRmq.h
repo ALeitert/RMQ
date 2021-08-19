@@ -31,6 +31,15 @@ public:
 
 private:
 
+    // States how large a single block of the data is.
+    // Defined as 1/2 * log n.
+    size_t blockSize = 0;
+
+    // Since we make the block size a power of two, we store helper for easy
+    // division and modulo operations.
+    size_t blockDiv = 0;
+    size_t blockMod = 0;
+
 };
 
 #endif
