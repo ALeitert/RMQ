@@ -26,7 +26,7 @@ PlusMinusRMQ::~PlusMinusRMQ()
 void PlusMinusRMQ::processData()
 {
     const vector<number> data = this->data;
-    const size_t    n    = this->data.size();
+    const size_t         n    = this->data.size();
 
     // Determine block size.
     {
@@ -43,7 +43,7 @@ void PlusMinusRMQ::processData()
         blockSize = 1 << k;
 
         blockDiv = k;
-        blockMod = blockSize;
+        blockMod = blockSize - 1;
     }
 
 
@@ -51,9 +51,6 @@ void PlusMinusRMQ::processData()
 
     size_t blockCount = (n + 1) >> blockDiv;
     {
-        // The minimum of each block (A' in the paper).
-        vector<number> blockMinVal;
-
         blockMinVal.reserve(blockCount);
         blockMinIdx.reserve(blockCount);
 
@@ -99,6 +96,7 @@ void PlusMinusRMQ::processData()
 
     blockCls.resize(blockCount, 0);
     classRmq.resize(classCount, nullptr);
+    classData.resize(classCount);
 
     for (size_t b = 0; b < blockCount; b++)
     {
@@ -124,8 +122,8 @@ void PlusMinusRMQ::processData()
         if (rmqPtr == nullptr)
         {
             // Create RMQ for class.
-            vector<number> block(data.begin() + bSta, data.begin() + bEnd - 1);
-            rmqPtr = new SparseTableRMQ<number>(block);
+            classData[cls] = vector<number>(data.begin() + bSta, data.begin() + bEnd);
+            rmqPtr = new SparseTableRMQ<number>(classData[cls]);
             (*rmqPtr).processData();
         }
     }
@@ -180,10 +178,5 @@ size_t PlusMinusRMQ::inBlockMin(size_t b, size_t i, size_t j) const
     size_t bClass = blockCls[b];
     SparseTableRMQ<number>& rmq = *(classRmq[bClass]);
 
-    // Range relative to block.
-    size_t bStart = b * blockSize;
-    size_t bI = i - bStart;
-    size_t bJ = j - bStart;
-
-    return bStart + rmq(bI, bJ);
+    return b * blockSize /* starting point of block */ + rmq(i, j);
 }

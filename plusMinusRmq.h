@@ -13,11 +13,11 @@
 #include "sparseTableRmq.hpp"
 
 
-class PlusMinusRMQ : public RMQ<size_t>
+class PlusMinusRMQ : public RMQ<int>
 {
     // The numberic type used for the data.
     // Has to be equal to type used for RMQ base class.
-    typedef size_t number;
+    typedef int number;
 
     // Shortcut to avoid the need for "std::".
     template<typename X> using vector = std::vector<X>;
@@ -60,6 +60,9 @@ private:
     size_t blockMod = 0;
 
 
+    // The minimum of each block (A' in the paper).
+    vector<number> blockMinVal;
+
     // The index of each block's minimum in the original data (B in the paper).
     vector<size_t> blockMinIdx;
 
@@ -72,6 +75,9 @@ private:
 
     // Allows to determine the minimum in a single block.
     vector<SparseTableRMQ<number>*> classRmq;
+
+    // The data for each class. These are copies of the original data.
+    vector<vector<number>> classData;
 
 };
 
