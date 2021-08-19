@@ -5,6 +5,7 @@
 
 
 #include "rmq.hpp"
+#include "plusMinusRmq.h"
 
 
 class RMQTest
@@ -42,6 +43,7 @@ public:
         return verify(rmq1, rmq2, dataSize, queries);
     }
 
+
     // Determines the runtime of the given algorithm.
     // Returns the runtime for preprocessing and for queries.
     template<typename T>
@@ -58,10 +60,46 @@ public:
     }
 
 
+    // Verifies that two RMQ algorithm create the same result.
+    // Randomly picks index pairs and compares the result.
+    template<typename T>
+    static bool verifyPlusMinus(size_t dataSize, size_t queries, unsigned seed)
+    {
+        static_assert(std::is_base_of<RMQ<Num>, T>::value, "T must inherit from RMQ<>.");
+
+        // Generade random numbers.
+        vector<Num> data = generatePlusMinus(dataSize, seed);
+
+        // Generate and test algorithms.
+        PlusMinusRMQ rmq1(data);
+        T rmq2(data);
+
+        rmq1.processData();
+        rmq2.processData();
+
+        return verify(rmq1, rmq2, dataSize, queries);
+    }
+
+    // Determines the runtime of the given algorithm.
+    // Returns the runtime for preprocessing and for queries.
+    static TimePair getPlusMinusRuntime(size_t dataSize, size_t queries, unsigned seed)
+    {
+        // Generade random numbers.
+        vector<Num> data = generatePlusMinus(dataSize, seed);
+
+        // Run test.
+        PlusMinusRMQ rmq(data);
+        return getRuntime(rmq, dataSize, queries);
+    }
+
+
 private:
 
     // Generates a list of random numbers with the given size.
     static vector<Num> generateData(size_t size, unsigned seed);
+
+    // Generates a list of random numbers that satisfy the +-1 property.
+    static vector<Num> generatePlusMinus(size_t size, unsigned seed);
 
     // Verifies that two RMQ algorithm create the same result.
     // Randomly picks index pairs and compares the result.

@@ -32,6 +32,29 @@ vector<Num> RMQTest::generateData(size_t size, unsigned seed)
     return data;
 }
 
+// Generates a list of random numbers that satisfy the +-1 property.
+vector<Num> RMQTest::generatePlusMinus(size_t size, unsigned seed)
+{
+    srand(seed);
+
+    size_t maxVal = size * logF(size);
+    size_t shift = maxVal >> 2;
+
+    vector<Num> data(size);
+
+    // Random first entry.
+    data[0] = rand() % maxVal - shift;
+
+    Num diff[2] = { 1, -1 };
+
+    for (size_t i = 1; i < size; i++)
+    {
+        data[i] = data[i - 1] + diff[(rand() & 1)];
+    }
+
+    return data;
+}
+
 // Verifies that two RMQ algorithm create the same result.
 // Randomly picks index pairs and compares the result.
 bool RMQTest::verify(const RMQ<Num>& rmq1, const RMQ<Num>& rmq2, size_t dataSize, size_t queries)
