@@ -8,6 +8,7 @@
 
 #include <algorithm>
 
+#include "log.hpp"
 #include "rmq.hpp"
 
 
@@ -30,7 +31,7 @@ public:
         const size_t n = data.size();
 
         // Height of the table is floor(log n) + 1
-        size_t tableHeight = ((sizeof(unsigned long long) << 3) - __builtin_clzll(n) - 1) + 1;
+        size_t tableHeight = logF(n) + 1;
 
         // We divert from the paper and have the height as first index and
         // length as second. That way, we always use the same vector instead
@@ -69,7 +70,7 @@ public:
     size_t operator()(size_t i, size_t j) const
     {
         // k = floor(log (j − i))
-        size_t k = (sizeof(unsigned long long) << 3) - __builtin_clzll(j - i) - 1;
+        size_t k = logF(j - i);
 
         // M[k, i]
         // M[k, j − 2^k + 1]

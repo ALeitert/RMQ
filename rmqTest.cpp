@@ -1,6 +1,7 @@
 #include <chrono>
 #include <cstdlib>
 
+#include "log.hpp"
 #include "rmqTest.h"
 
 using namespace std;
@@ -12,23 +13,12 @@ typedef int Num;
 typedef std::pair<size_t, size_t> TimePair;
 
 
-// Anonymous namespace with helper functions.
-namespace
-{
-    // Computes the logarithm base 2 of the given number.
-    inline unsigned LogF(size_t x)
-    {
-        return (sizeof(unsigned long long) << 3) - __builtin_clzll(x) - 1;
-    }
-}
-
-
 // Generates a list of random numbers with the given size.
 vector<Num> RMQTest::generateData(size_t size, unsigned seed)
 {
     srand(seed);
 
-    size_t maxVal = size * LogF(size);
+    size_t maxVal = size * logF(size);
     size_t shift = maxVal >> 2;
 
 

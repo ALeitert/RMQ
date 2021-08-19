@@ -7,6 +7,7 @@
 
 #include <limits>
 
+#include "log.hpp"
 #include "rmq.hpp"
 
 
@@ -42,7 +43,7 @@ public:
         const size_t n = this->data.size();
 
         // Height is ceil(log n) + 1.
-        size_t height = (sizeof(unsigned long long) << 3) - __builtin_clzll(n - 1) + 1;
+        size_t height = logC(n - 1) + 1;
 
         // We build a full binary tree and cut nodes later.
         size_t treeSize = (1 << height) - 1;
