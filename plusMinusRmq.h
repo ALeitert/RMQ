@@ -44,6 +44,12 @@ public:
 
 private:
 
+    // Performs a query on the given block and given range.
+    // Returns the index of the minimum entry in that range with respect to the
+    // original data.
+    size_t inBlockMin(size_t b, size_t i, size_t j) const;
+
+
     // States how large a single block of the data is.
     // Defined as 1/2 * log n.
     size_t blockSize = 0;
@@ -55,17 +61,17 @@ private:
 
 
     // The index of each block's minimum in the original data (B in the paper).
-    vector<number> blockMinIdx;
+    vector<size_t> blockMinIdx;
 
     // A RMQ to find the minimum block.
-    SparseTableRMQ<size_t>* tableRmq = nullptr;
+    SparseTableRMQ<number>* tableRmq = nullptr;
 
 
     // States for each block, what class it is.
     vector<size_t> blockCls;
 
     // Allows to determine the minimum in a single block.
-    vector<SparseTableRMQ<size_t>*> classRmq;
+    vector<SparseTableRMQ<number>*> classRmq;
 
 };
 

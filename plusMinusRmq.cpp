@@ -15,7 +15,7 @@ PlusMinusRMQ::~PlusMinusRMQ()
 {
     if (tableRmq != nullptr) delete tableRmq;
 
-    for (SparseTableRMQ<size_t>*& ptr : classRmq)
+    for (SparseTableRMQ<number>*& ptr : classRmq)
     {
         if (ptr != nullptr) delete ptr;
     }
@@ -82,7 +82,7 @@ void PlusMinusRMQ::processData()
         }
 
         // Create RMQ over blocks.
-        tableRmq = new SparseTableRMQ<size_t>(blockMinVal);
+        tableRmq = new SparseTableRMQ<number>(blockMinVal);
         tableRmq->processData();
     }
 
@@ -120,7 +120,7 @@ void PlusMinusRMQ::processData()
         cls >>= 1;
 
         // Has that class an RMQ?
-        SparseTableRMQ<size_t>*& rmqPtr = classRmq[cls];
+        SparseTableRMQ<number>*& rmqPtr = classRmq[cls];
         if (rmqPtr == nullptr)
         {
             // Create RMQ for class.
@@ -138,4 +138,52 @@ void PlusMinusRMQ::processData()
 // has not been done.
 size_t PlusMinusRMQ::operator()(size_t i, size_t j) const
 {
+    // Determine block indices.
+    size_t iB = i >> blockDiv;
+    size_t jB = j >> blockDiv;
+
+    // Determine indices in block.
+    size_t iIdx = i & blockMod;
+    size_t jIdx = j & blockMod;
+
+    if (iB == jB)
+    {
+        // i and j are in the same block.
+        return inBlockMin(iB, iIdx, jIdx);
+    }
+
+
+    // i and j are in different blocks.
+
+    size_t iMin = inBlockMin(iB, iIdx, blockMod);
+    size_t jMin = inBlockMin(jB, 0, jIdx);
+    size_t ijMin = this->minIndex(iMin, jMin);
+
+
+    // Are blocks adjacent?
+    if (iB + 1 == jB) return ijMin;
+
+
+    // Determine the minimum in the blocks between i and j.
+    size_t bIdx = (*tableRmq)(iB + 1, jB - 1);
+    size_t bMin = blockMinIdx[bIdx];
+
+    return this->minIndex(ijMin, bMin);
+}
+
+// Performs a query on the given block and given range.
+// Returns the index of the minimum entry in that range with respect to the
+// original data.
+size_t PlusMinusRMQ::inBlockMin(size_t b, size_t i, size_t j) const
+{
+    // Determine class and RMQ.
+    size_t bClass = blockCls[b];
+    SparseTableRMQ<number>& rmq = *(classRmq[bClass]);
+
+    // Range relative to block.
+    size_t bStart = b * blockSize;
+    size_t bI = i - bStart;
+    size_t bJ = j - bStart;
+
+    return bStart + rmq(bI, bJ);
 }
