@@ -19,6 +19,11 @@ public:
     // Constructor.
     RMQ(const std::vector<T>& data) : data(data) { /* Nothing. */ }
 
+    // Destructor.
+    // Does not do anything but is still recommended.
+    // See https://stackoverflow.com/a/1123159.
+    virtual ~RMQ() { /* Nothing. */ }
+
 
     // Pre-processes the data to allow queries.
     virtual void processData() { };

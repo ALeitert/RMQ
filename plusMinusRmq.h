@@ -10,6 +10,7 @@
 
 
 #include "rmq.hpp"
+#include "sparseTableRmq.hpp"
 
 
 class PlusMinusRMQ : public RMQ<size_t>
@@ -26,6 +27,10 @@ public:
 
     // Constructor.
     PlusMinusRMQ(const std::vector<number>& data);
+
+    // Destructor.
+    ~PlusMinusRMQ();
+
 
     // Pre-processes the data to allow queries.
     void processData();
@@ -47,6 +52,13 @@ private:
     // division and modulo operations.
     size_t blockDiv = 0;
     size_t blockMod = 0;
+
+
+    // The index of each block's minimum in the original data (B in the paper).
+    vector<number> blockMinIdx;
+
+    // A RMQ to find the minimum block.
+    SparseTableRMQ<size_t>* tableRmq = nullptr;
 
 };
 

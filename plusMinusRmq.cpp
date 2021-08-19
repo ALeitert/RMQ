@@ -10,6 +10,13 @@ PlusMinusRMQ::PlusMinusRMQ(const vector<number>& data) :
     /* Nothing. */
 }
 
+// Destructor.
+PlusMinusRMQ::~PlusMinusRMQ()
+{
+    if (tableRmq != nullptr) delete tableRmq;
+}
+
+
 // Pre-processes the data to allow queries.
 void PlusMinusRMQ::processData()
 {
@@ -32,6 +39,46 @@ void PlusMinusRMQ::processData()
 
         blockDiv = k;
         blockMod = blockSize;
+    }
+
+
+    // --- Determine minimum in each block. ---
+
+    size_t blockCount = (n + 1) >> blockDiv;
+    {
+        // The minimum of each block (A' in the paper).
+        vector<number> blockMinVal;
+
+        blockMinVal.reserve(blockCount);
+        blockMinIdx.reserve(blockCount);
+
+        for (size_t b = 0, i = 0; i < n; b++)
+        {
+            // b: The current block index.
+            // i: The current element in data[].
+
+            blockMinVal.push_back(data[i]);
+            blockMinIdx.push_back(i);
+            i++;
+
+            number& curMin = blockMinVal[b];
+            size_t& curIdx = blockMinIdx[b];
+
+            for (size_t j = 1; j < blockSize && i < n; i++, j++)
+            {
+                // j: The current index in the current block.
+
+                if (data[i] < curMin)
+                {
+                    curMin = data[i];
+                    curIdx = i;
+                }
+            }
+        }
+
+        // Create RMQ over blocks.
+        tableRmq = new SparseTableRMQ<size_t>(blockMinVal);
+        tableRmq->processData();
     }
 }
 
