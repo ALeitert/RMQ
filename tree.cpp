@@ -36,6 +36,53 @@ const vector<size_t>& Tree::operator[](size_t uId) const
 }
 
 
+// Computes an Euler tour of the tree.
+EulerTour Tree::eulerTour() const
+{
+    const size_t n = parents.size();
+
+    EulerTour result;
+    result.E.reserve(2 * n - 1);
+    result.L.reserve(2 * n - 1);
+    result.R.resize(n);
+
+    // Helpers to compute DFS
+    vector<size_t> chIdx(n, 0);
+    vector<size_t> stack;
+
+
+    // Push
+    stack.push_back(root);
+
+    while (stack.size() > 0)
+    {
+        size_t vId = stack.back();
+        size_t& cIdx = chIdx[vId];
+
+
+        result.R[vId] = result.E.size();
+        result.E.push_back(vId);
+        result.L.push_back(stack.size());
+
+
+        if (cIdx < children[vId].size())
+        {
+            const size_t& childId = children[vId][cIdx];
+
+            // Push
+            stack.push_back(childId);
+            cIdx++;
+        }
+        else
+        {
+            // All neighbours checked, backtrack.
+            stack.pop_back();
+        }
+    }
+
+    return result;
+}
+
 
 // Helper function for constructor.
 void Tree::buildChildren()
