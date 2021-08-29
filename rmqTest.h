@@ -5,7 +5,7 @@
 
 
 #include "rmq.hpp"
-#include "plusMinusRmq.h"
+#include "plusMinusRmq.hpp"
 
 
 class RMQTest
@@ -71,7 +71,7 @@ public:
         vector<Num> data = generatePlusMinus(dataSize, seed);
 
         // Generate and test algorithms.
-        PlusMinusRMQ rmq1(data);
+        PlusMinusRMQ<Num> rmq1(data);
         T rmq2(data);
 
         rmq1.processData();
@@ -88,7 +88,7 @@ public:
         vector<Num> data = generatePlusMinus(dataSize, seed);
 
         // Run test.
-        PlusMinusRMQ rmq(data);
+        PlusMinusRMQ<Num> rmq(data);
         return getRuntime(rmq, dataSize, queries);
     }
 

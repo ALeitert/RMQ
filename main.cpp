@@ -14,7 +14,7 @@
 #include "segTreeRmq.hpp"
 #include "segTreeCacheRmq.hpp"
 #include "sparseTableRmq.hpp"
-#include "plusMinusRmq.h"
+#include "plusMinusRmq.hpp"
 
 
 using namespace std;
@@ -188,7 +188,7 @@ int main()
         cout << endl;
     }
 
-    cout << "\n*** Plus Minus ***";
+    cout << "\n*** Plus Minus 1 ***";
     {
         pair<size_t, size_t> timePair =
             RMQTest::getPlusMinusRuntime(dataSize, queries, seed);
