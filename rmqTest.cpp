@@ -55,6 +55,35 @@ vector<Num> RMQTest::generatePlusMinus(size_t size, unsigned seed)
     return data;
 }
 
+// Generates a random tree of the given size.
+Tree RMQTest::generateTree(size_t size, unsigned seed)
+{
+    srand(seed);
+
+    // Create list with node IDs.
+    vector<size_t> nodes(size);
+    for (size_t i = 0; i < size; i++)
+    {
+        nodes[i] = i;
+    }
+
+    // Shuffle node IDs.
+    random_shuffle(nodes.begin(), nodes.end());
+
+    // Set parents for each node.
+    vector<size_t> parents(size);
+    parents[nodes[0]] = -1;
+
+    for (size_t i = 1; i < size; i++)
+    {
+        size_t pId = nodes[rand() % i];
+        parents[nodes[i]] = pId;
+    }
+
+    return Tree(parents);
+}
+
+
 // Verifies that two RMQ algorithm create the same result.
 // Randomly picks index pairs and compares the result.
 bool RMQTest::verify(const RMQ<Num>& rmq1, const RMQ<Num>& rmq2, size_t dataSize, size_t queries)

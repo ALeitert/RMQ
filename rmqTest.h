@@ -101,6 +101,10 @@ private:
     // Generates a list of random numbers that satisfy the +-1 property.
     static vector<Num> generatePlusMinus(size_t size, unsigned seed);
 
+    // Generates a random tree of the given size.
+    static Tree generateTree(size_t size, unsigned seed);
+
+
     // Verifies that two RMQ algorithm create the same result.
     // Randomly picks index pairs and compares the result.
     static bool verify(const RMQ<Num>& rmq1, const RMQ<Num>& rmq2, size_t dataSize, size_t queries);
