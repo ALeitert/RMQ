@@ -207,4 +207,64 @@ int main()
 
         cout << endl;
     }
+
+
+    cout << "\n --- --- Testing LCA Algorithms. --- ---" << endl;
+
+    cout << "\n*** Reference ***";
+    {
+        pair<size_t, size_t> timePair =
+            RMQTest::getAncestorRuntime<RMQ<size_t>>(dataSize, queries, seed);
+
+        cout << "\nP: "; printTime(timePair.first, cout);
+        cout << "\nQ: "; printTime(timePair.second, cout);
+        cout << endl;
+
+        refTime = timePair;
+    }
+
+    cout << "\n*** Segment Tree Cache ***";
+    {
+        pair<size_t, size_t> timePair =
+            RMQTest::getAncestorRuntime<SegTreeCacheRMQ<size_t>>
+            (
+                dataSize,
+                queries,
+                seed
+            );
+
+        cout << "\nP: "; printTime(timePair.first - refTime.first, cout);
+        cout << "\nQ: "; printTime(timePair.second - refTime.second, cout);
+        cout << endl;
+    }
+
+    cout << "\n*** Sparse Table ***";
+    {
+        pair<size_t, size_t> timePair =
+            RMQTest::getAncestorRuntime<SparseTableRMQ<size_t>>
+            (
+                dataSize,
+                queries,
+                seed
+            );
+
+        cout << "\nP: "; printTime(timePair.first - refTime.first, cout);
+        cout << "\nQ: "; printTime(timePair.second - refTime.second, cout);
+        cout << endl;
+    }
+
+    cout << "\n*** Plus Minus 1 ***";
+    {
+        pair<size_t, size_t> timePair =
+            RMQTest::getAncestorRuntime<PlusMinusRMQ<size_t>>
+            (
+                dataSize,
+                queries,
+                seed
+            );
+
+        cout << "\nP: "; printTime(timePair.first - refTime.first, cout);
+        cout << "\nQ: "; printTime(timePair.second - refTime.second, cout);
+        cout << endl;
+    }
 }
