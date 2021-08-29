@@ -4,8 +4,14 @@
 #define __RmqTest_HPP__
 
 
+#include <chrono>
+
+#include "lca.hpp"
 #include "rmq.hpp"
 #include "plusMinusRmq.hpp"
+
+
+using namespace std::chrono;
 
 
 class RMQTest
@@ -90,6 +96,49 @@ public:
         // Run test.
         PlusMinusRMQ<Num> rmq(data);
         return getRuntime(rmq, dataSize, queries);
+    }
+
+
+    // Meassures the time needed to preprocess and to run queries unsing the
+    // given RMQ algorithm.
+    template<typename T>
+    static TimePair getAncestorRuntime(size_t treeSize, size_t queries, unsigned seed)
+    {
+        static_assert(std::is_base_of<RMQ<size_t>, T>::value, "T must inherit from RMQ<size_t>.");
+
+        Tree tree = generateTree(treeSize, seed);
+        LCA<T> lca(tree);
+
+
+        // Preprocessing
+        size_t pTime = 0;
+        {
+            auto start = high_resolution_clock::now();
+
+            lca.processData();
+
+            auto end = high_resolution_clock::now();
+            pTime = duration_cast<milliseconds>(end - start).count();
+        }
+
+        // Queries
+        size_t qTime = 0;
+        {
+            auto start = high_resolution_clock::now();
+
+            for (size_t q = 0; q < queries; q++)
+            {
+                size_t uId = rand() % treeSize;
+                size_t vId = (uId + 1 + (rand() % (treeSize - 1))) % treeSize;
+
+                lca(uId, vId);
+            }
+
+            auto end = high_resolution_clock::now();
+            qTime = duration_cast<milliseconds>(end - start).count();
+        }
+
+        return TimePair(pTime, qTime);
     }
 
 

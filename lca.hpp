@@ -36,7 +36,7 @@ public:
 
 
     // Pre-processes the data to allow queries.
-    void processTree()
+    void processData()
     {
         et = tree.eulerTour();
         rmqPtr = new T(et.L);
