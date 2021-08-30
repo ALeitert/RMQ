@@ -56,6 +56,13 @@ We rite that the runtime of an algorithm is in < O( *f*(*n*) ), O( *g*(*n*) )> t
     The properties allow the following overall runtime: < O(*n*), O(1) >.
 
 
+## Lowest Common Ancestor
+
+We also implemented an algorithm that computes the lowest common ancestor of two nodes in a tree.
+The algorithm uses an Euler tour of the given tree and then performs a RMQ on that tour as described in [1].
+For that it can use any of the RMQ algorithms described above.
+
+
 ## References
 
 [1] M.A. Bender, M. Farach-Colton:
