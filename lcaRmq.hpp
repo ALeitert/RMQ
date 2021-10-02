@@ -6,6 +6,7 @@
 
 
 #include "lca.hpp"
+#include "plusMinusRmq.hpp"
 #include "rmq.hpp"
 
 
@@ -20,9 +21,18 @@ public:
     // Constructor.
     LcaRMQ(const std::vector<T>& data) : RMQ<T>(data) { /* Nothing. */ }
 
+    // Destructor.
+    ~LcaRMQ()
+    {
+        if (lca != nullptr) delete lca;
+    }
+
     // Pre-processes the data to allow queries.
     void processData()
     {
+        Tree t = buildTree();
+        lca = new LCA<PlusMinusRMQ<size_t>>(t);
+        lca->processData();
     }
 
     // Performs a query on the given data and given range.
@@ -31,11 +41,15 @@ public:
     // has not been done.
     size_t operator()(size_t i, size_t j) const
     {
-        return -1;
+        return (*lca)(i, j);
     }
 
 
 private:
+
+    // The LCA algorithm used.
+    LCA<PlusMinusRMQ<size_t>>* lca = nullptr;
+
 
     // Helper function that builds a Cartesian Tree from the given data.
     Tree buildTree()
@@ -46,7 +60,7 @@ private:
 
         vector<size_t> par(n, Tree::NullNode);
 
-        for (int i = 1; i < n; i++)
+        for (size_t i = 1; i < n; i++)
         {
             size_t lar = i;
             size_t sml = i - 1;
