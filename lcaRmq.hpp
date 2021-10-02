@@ -5,12 +5,16 @@
 #define __LcaRmq_HPP__
 
 
+#include "lca.hpp"
 #include "rmq.hpp"
 
 
 template<typename T>
 class LcaRMQ : public RMQ<T>
 {
+    // Shortcut to avoid the need for "std::".
+    template<typename X> using vector = std::vector<X>;
+
 public:
 
     // Constructor.
@@ -28,6 +32,36 @@ public:
     size_t operator()(size_t i, size_t j) const
     {
         return -1;
+    }
+
+
+private:
+
+    // Helper function that builds a Cartesian Tree from the given data.
+    Tree buildTree()
+    {
+        const vector<T> data = this->data;
+        const size_t    n    = this->data.size();
+
+
+        vector<size_t> par(n, Tree::NullNode);
+
+        for (int i = 1; i < n; i++)
+        {
+            size_t lar = i;
+            size_t sml = i - 1;
+
+            while (sml != Tree::NullNode && data[i] < data[sml])
+            {
+                lar = sml;
+                sml = par[sml];
+            }
+
+            par[lar] = i;
+            par[i] = sml;
+        }
+
+        return Tree(par);
     }
 };
 

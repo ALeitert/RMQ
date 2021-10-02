@@ -10,13 +10,13 @@
 struct EulerTour
 {
     // The sequence of nodes visited during an Euler tour.
-    std::vector<size_t> E;
+    std::vector<std::size_t> E;
 
     // The level (distance to root + 1) of each node in the Euler tour.
-    std::vector<size_t> L;
+    std::vector<std::size_t> L;
 
     // The index of a node's last occourance in the Euler tour.
-    std::vector<size_t> R;
+    std::vector<std::size_t> R;
 };
 
 
@@ -25,11 +25,12 @@ class Tree
     // Shortcut to avoid the need for "std::".
     template<typename X> using vector = std::vector<X>;
 
-    // Represents a null pointer.
-    const size_t NullNode = -1;
-
 
 public:
+
+    // Represents a null pointer.
+    static constexpr size_t NullNode = -1;
+
 
     // Default constructor.
     // Creates an empty tree.
