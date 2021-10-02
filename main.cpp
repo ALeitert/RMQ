@@ -8,6 +8,7 @@
 #include <iomanip>
 #include <iostream>
 
+#include "lcaRmq.hpp"
 #include "naiveRmq.hpp"
 #include "noPreRmq.hpp"
 #include "rmqTest.h"
@@ -208,6 +209,27 @@ int main()
         cout << endl;
     }
 
+
+    cout << "\n*** RMQ via +-1 LCA ***";
+    {
+        pair<size_t, size_t> timePair =
+            RMQTest::getRuntime<LcaRMQ<int>>(dataSize, queries, seed);
+
+        cout << "\nP: "; printTime(timePair.first - refTime.first, cout);
+        cout << "\nQ: "; printTime(timePair.second - refTime.second, cout);
+
+        // Verify correctnes.
+        bool correct =
+            RMQTest::verifyAlgorithms
+            <
+                SparseTableRMQ<int>,
+                LcaRMQ<int>
+            >
+            (dataSize, queries, seed);
+        cout << "\nC: " << (correct ? "Yes" : "No");
+
+        cout << endl;
+    }
 
     cout << "\n --- --- Testing LCA Algorithms. --- ---" << endl;
 
