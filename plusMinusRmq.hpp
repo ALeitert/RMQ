@@ -73,7 +73,8 @@ public:
 
         // --- Determine minimum in each block. ---
 
-        size_t blockCount = (n + 1) >> blockDiv;
+        // ceil(x / y) = floor((x - 1) / y) + 1
+        size_t blockCount = ((n - 1) >> blockDiv) + 1;
         {
             blockMinVal.reserve(blockCount);
             blockMinIdx.reserve(blockCount);
@@ -110,7 +111,7 @@ public:
 
         // --- Classify blocks. ---
 
-        // Notethat we do not need to handle the last block B as special case as
+        // Note that we do not need to handle the last block B as special case as
         // long as we classify it last. If its class is unique, it will be
         // processed automatically. If it has the same class as a previous block,
         // we still only run queries on a range fitting to B which is still
