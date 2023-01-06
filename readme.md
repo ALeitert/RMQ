@@ -9,7 +9,7 @@ The algorithms all have two parts to it: a pre-processing and query.
 The pre-processing processes the given array *A* and then stores results that allow for a faster query.
 The query then determines the minimum in the specified rang with the help of the pre-processing results.
 Subsequently, these algorithms have two runtimes.
-We rite that the runtime of an algorithm is in < O( *f*(*n*) ), O( *g*(*n*) )> time if the pre-processing runs in O( *f*(*n*) ) time, and a ingle query runs in O( *g*(*n*) ) time.
+We rite that the runtime of an algorithm is in < O( *f*(*n*) ), O( *g*(*n*) )> time if the pre-processing runs in O( *f*(*n*) ) time, and a single query runs in O( *g*(*n*) ) time.
 
 
 ## Implemented Algorithms
@@ -21,7 +21,7 @@ We rite that the runtime of an algorithm is in < O( *f*(*n*) ), O( *g*(*n*) )> t
 
   * **Naive.**
     This is a straight forward implementation of an RMQ algorithm.
-    It computes all *n*^2 possible results and strores them in a table *T*.
+    It computes all *n*^2 possible results and stores them in a table *T*.
     A query then simply reads the value out of *T*[*i*][*j*].
     Runtime: < O(*n*^2), O(1) >.
 
@@ -33,10 +33,10 @@ We rite that the runtime of an algorithm is in < O( *f*(*n*) ), O( *g*(*n*) )> t
     Runtime: < O(*n*), O(log *n*) >.
 
   * **Cache-Oblivious Segment Tree.**
-    This algorithm works overall the same way as the Segemnt Tree algorithm above.
+    This algorithm works overall the same way as the Segment Tree algorithm above.
     The difference, however, is the way the nodes are stored in memory.
     They follow a *van Emde Boas layout* as described in [2, 3].
-    Although the overall runtime is the same (asymtotically), there are asymtotically fewer cache misses when accessing nodes, leading to an overall better performance.
+    Although the overall runtime is the same (asymptotically), there are asymptotically fewer cache misses when accessing nodes, leading to an overall better performance.
     Runtime: < O(*n*), O(log *n*) >.
 
   * **Sparse Table.**

@@ -35,7 +35,7 @@ public:
 
         // We divert from the paper and have the height as first index and
         // length as second. That way, we always use the same vector instead
-        // of two different ones; thereby inproving caching and improving the
+        // of two different ones; thereby improving caching and improving the
         // runtime slightly.
         M.resize(tableHeight, vector<size_t>(n));
 
@@ -84,7 +84,7 @@ public:
 
 private:
 
-    // Table with minumums in various ranges.
+    // Table with minimums in various ranges.
     vector<vector<size_t>> M;
 };
 

@@ -55,7 +55,7 @@ public:
         // Determine block size.
         {
             // The paper defines block size as 1/2 log n. We divert from that
-            // and use the largerst power of 2 not larger than 1/2 log n.
+            // and use the largest power of 2 not larger than 1/2 log n.
             // That is, we want the largest k such that
             //     2^k in [1/2 log n, 1/4 log n).
             // Note that this is equivalent to

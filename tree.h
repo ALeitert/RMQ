@@ -15,7 +15,7 @@ struct EulerTour
     // The level (distance to root + 1) of each node in the Euler tour.
     std::vector<std::size_t> L;
 
-    // The index of a node's last occourance in the Euler tour.
+    // The index of a node's last occurrence in the Euler tour.
     std::vector<std::size_t> R;
 };
 
@@ -24,6 +24,7 @@ class Tree
 {
     // Shortcut to avoid the need for "std::".
     template<typename X> using vector = std::vector<X>;
+    typedef std::size_t size_t;
 
 
 public:

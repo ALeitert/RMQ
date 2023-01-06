@@ -1,4 +1,4 @@
-// Defines functions to compare the correctnes and runtime of RMQ algorithms.
+// Defines functions to compare the correctness and runtime of RMQ algorithms.
 
 #ifndef __RmqTest_HPP__
 #define __RmqTest_HPP__
@@ -36,7 +36,7 @@ public:
         static_assert(std::is_base_of<RMQ<Num>, S>::value, "S must inherit from RMQ<>.");
         static_assert(std::is_base_of<RMQ<Num>, T>::value, "T must inherit from RMQ<>.");
 
-        // Generade random numbers.
+        // Generate random numbers.
         vector<Num> data = generateData(dataSize, seed);
 
         // Generate and test algorithms.
@@ -57,7 +57,7 @@ public:
     {
         static_assert(std::is_base_of<RMQ<Num>, T>::value, "T must inherit from RMQ<>.");
 
-        // Generade random numbers.
+        // Generate random numbers.
         vector<Num> data = generateData(dataSize, seed);
 
         // Run test.
@@ -73,7 +73,7 @@ public:
     {
         static_assert(std::is_base_of<RMQ<Num>, T>::value, "T must inherit from RMQ<>.");
 
-        // Generade random numbers.
+        // Generate random numbers.
         vector<Num> data = generatePlusMinus(dataSize, seed);
 
         // Generate and test algorithms.
@@ -90,7 +90,7 @@ public:
     // Returns the runtime for preprocessing and for queries.
     static TimePair getPlusMinusRuntime(size_t dataSize, size_t queries, unsigned seed)
     {
-        // Generade random numbers.
+        // Generate random numbers.
         vector<Num> data = generatePlusMinus(dataSize, seed);
 
         // Run test.
@@ -99,7 +99,7 @@ public:
     }
 
 
-    // Meassures the time needed to preprocess and to run queries unsing the
+    // Measures the time needed to preprocess and to run queries using the
     // given RMQ algorithm.
     template<typename T>
     static TimePair getAncestorRuntime(size_t treeSize, size_t queries, unsigned seed)
@@ -158,7 +158,7 @@ private:
     // Randomly picks index pairs and compares the result.
     static bool verify(const RMQ<Num>& rmq1, const RMQ<Num>& rmq2, size_t dataSize, size_t queries);
 
-    // Meassures the time needed to preprocess and to run queries unsing the
+    // Measures the time needed to preprocess and to run queries using the
     // given RMQ algorithm.
     static TimePair getRuntime(RMQ<Num>& rmq, size_t dataSize, size_t queries);
 };

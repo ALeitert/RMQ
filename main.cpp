@@ -113,7 +113,7 @@ int main()
         cout << "\nP: "; printTime(timePair.first - refTime.first, cout);
         cout << "\nQ: "; printTime(timePair.second - refTime.second, cout);
 
-        // Verify correctnes.
+        // Verify correctness.
         bool correct =
             RMQTest::verifyAlgorithms
             <
@@ -134,7 +134,7 @@ int main()
         cout << "\nP: "; printTime(timePair.first - refTime.first, cout);
         cout << "\nQ: "; printTime(timePair.second - refTime.second, cout);
 
-        // Verify correctnes.
+        // Verify correctness.
         bool correct =
             RMQTest::verifyAlgorithms
             <
@@ -155,7 +155,7 @@ int main()
         cout << "\nP: "; printTime(timePair.first - refTime.first, cout);
         cout << "\nQ: "; printTime(timePair.second - refTime.second, cout);
 
-        // Verify correctnes.
+        // Verify correctness.
         bool correct =
             RMQTest::verifyAlgorithms
             <
@@ -176,7 +176,7 @@ int main()
         cout << "\nP: "; printTime(timePair.first - refTime.first, cout);
         cout << "\nQ: "; printTime(timePair.second - refTime.second, cout);
 
-        // Verify correctnes.
+        // Verify correctness.
         bool correct =
             RMQTest::verifyAlgorithms
             <
@@ -197,7 +197,7 @@ int main()
         cout << "\nP: "; printTime(timePair.first - refTime.first, cout);
         cout << "\nQ: "; printTime(timePair.second - refTime.second, cout);
 
-        // Verify correctnes.
+        // Verify correctness.
         bool correct =
             RMQTest::verifyPlusMinus
             <
@@ -218,7 +218,7 @@ int main()
         cout << "\nP: "; printTime(timePair.first - refTime.first, cout);
         cout << "\nQ: "; printTime(timePair.second - refTime.second, cout);
 
-        // Verify correctnes.
+        // Verify correctness.
         bool correct =
             RMQTest::verifyAlgorithms
             <

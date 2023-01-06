@@ -107,7 +107,7 @@ bool RMQTest::verify(const RMQ<Num>& rmq1, const RMQ<Num>& rmq2, size_t dataSize
     return true;
 }
 
-// Meassures the time needed to preprocess and to run queries unsing the
+// Measures the time needed to preprocess and to run queries using the
 // given RMQ algorithm.
 TimePair RMQTest::getRuntime(RMQ<Num>& rmq, size_t dataSize, size_t queries)
 {
